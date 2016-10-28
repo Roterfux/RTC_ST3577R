@@ -41,7 +41,7 @@ void ucglib_graphics_test(void) {
   ucg.print(datestring);
 
   // Temperature
-  ucg.setPrintPos(90, 15 + 100);
+  ucg.setPrintPos( 90, 15 + 100);
   ucg.print(new_temp.AsFloat());
   ucg.setPrintPos(142, 15 + 100);
   ucg.print("C");
@@ -56,7 +56,9 @@ void ucglib_graphics_test(void) {
 void drawStuff(void) {
   ucg.setColor(128, 0, 255);
   ucg.drawFrame(3, 3, screen_y_max - 6, screen_x_max - 6);
-  ucg.drawTriangle(120, 10, 130, 30, 150, 25);
+  ucg.drawTriangle(120, 10,
+                   130, 30,
+                   150, 25);
 }
 
 void setup(void) {
