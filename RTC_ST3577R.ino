@@ -1,4 +1,3 @@
-
 #include <SPI.h>
 #include "Ucglib.h"
 #include <Wire.h>  // must be included here so that Arduino library object file references work
@@ -32,7 +31,8 @@ void ucglib_graphics_test(void) {
   char timestring[20];
 
   snprintf_P(datestring, countof(datestring), PSTR("%02u.%02u.%04u"), dt.Day(), dt.Month(), dt.Year());
-  snprintf_P(timestring, countof(timestring), PSTR("%02u:%02u"),      new_Hour, new_Minute);
+  /* DST problem discovered: workaround by using -1 for 'normal time' */
+  snprintf_P(timestring, countof(timestring), PSTR("%02u:%02u"),      new_Hour - 1, new_Minute);
 
   // Date
   ucg.setFont(ucg_font_logisoso16_tf);
