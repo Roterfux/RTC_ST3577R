@@ -5,7 +5,8 @@
 
 RtcDS3231 Rtc;
 
-Ucglib_ST7735_18x128x160_HWSPI ucg(/*cd=*/ 8 , /*cs=*/ 10, /*reset=*/ 9);
+//Ucglib_ST7735_18x128x160_HWSPI ucg(/*cd=*/ 8 , /*cs=*/ 10, /*reset=*/ 9);
+Ucglib_ST7735_18x128x160_SWSPI ucg(/*sclk=*/ 13, /*data=*/ 11, /*cd=*/ 8 , /*cs=*/ 10, /*reset=*/ 9);
 
 #define countof(a) (sizeof(a) / sizeof(a[0]))
 
@@ -17,7 +18,7 @@ byte  old_Minute = 0;
 byte  new_Minute;
 float old_temp   = 0.0;
 float new_temp;
-const unsigned int DELAY  = 1000;
+const int DELAY  = 1000;
 
 void ucglib_graphics_test(void) {
 
@@ -26,13 +27,15 @@ void ucglib_graphics_test(void) {
   RtcTemperature new_temp = Rtc.GetTemperature();
   new_Hour                = dt.Hour();
   new_Minute              = dt.Minute();
+  
+  if(new_Hour == 0)
+    new_Hour = 23;
 
   char datestring[20];
   char timestring[20];
 
   snprintf_P(datestring, countof(datestring), PSTR("%02u.%02u.%04u"), dt.Day(), dt.Month(), dt.Year());
-  /* DST problem discovered: workaround by using -1 for 'normal time' */
-  snprintf_P(timestring, countof(timestring), PSTR("%02u:%02u"),      new_Hour - 1, new_Minute);
+  snprintf_P(timestring, countof(timestring), PSTR("%02u:%02u"),      new_Hour, new_Minute);
 
   // Date
   ucg.setFont(ucg_font_logisoso16_tf);
