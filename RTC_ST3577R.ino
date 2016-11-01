@@ -30,12 +30,14 @@ void ucglib_graphics_test(void) {
   
   if(new_Hour == 0)
     new_Hour = 23;
+  if(new_Hour > 23)
+    new_Hour = 0;
 
   char datestring[20];
   char timestring[20];
 
   snprintf_P(datestring, countof(datestring), PSTR("%02u.%02u.%04u"), dt.Day(), dt.Month(), dt.Year());
-  snprintf_P(timestring, countof(timestring), PSTR("%02u:%02u"),      new_Hour, new_Minute);
+  snprintf_P(timestring, countof(timestring), PSTR("%02u:%02u"),      new_Hour -1, new_Minute);
 
   // Date
   ucg.setFont(ucg_font_logisoso16_tf);
@@ -57,7 +59,7 @@ void ucglib_graphics_test(void) {
 }
 
 void drawStuff(void) {
-  ucg.setColor(128, 0, 255);
+  ucg.setColor(128, 50, 255);
   ucg.drawFrame(3, 3, screen_y_max - 6, screen_x_max - 6);
   ucg.drawTriangle(120, 10,
                    130, 30,
